@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>闻见家抽奖</title>
+
+  <link rel="stylesheet" href="normalize.css" type="text/css">
+
+    <link rel="stylesheet" href="style.css" media="screen" type="text/css" />
+
+</head>
+
+<body>
+<canvas class="canvas"></canvas>
+
+<div class="ui">
+  <!--<input class="ui-input" type="text" />
+	  <span class="ui-return">↵</span>-->
+  <button id="lotterybtn" class="ui-button ease-in-out" onclick="performLottery()">开始</button>
+</div>
+
+  <script src="index.js"></script>
+  <script>
+	var arg = window.location.href.indexOf('?');
+	var cap = arg>-1 ? parseInt(decodeURI(window.location.href).substring(arg + 1)) : 900;
+	S.UI.simulate('闻见家|抽奖');
+	function getNextNumber() {
+		num = Math.min(Math.ceil(Math.random() * cap + 1), cap) + "";
+		while (num.length < 3) num = "0" + num;
+		return num;
+	}
+	function performLottery() {
+		btn = document.getElementById("lotterybtn");
+		if (btn.innerHTML == "开始") {
+			btn.innerHTML = "结束";
+			S.UI.timedAction(function(index) {
+				S.Shape.switchShape(S.ShapeBuilder.letter(getNextNumber()), true);
+			}, 300);
+		} else {
+			S.Shape.stopMoving();
+			S.UI.reset();
+			btn.innerHTML = "开始";
+			S.UI.update(getNextNumber());
+		}
+	}
+  </script>
+
+</body>
+
+</html>
